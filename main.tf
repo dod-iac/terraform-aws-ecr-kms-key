@@ -32,6 +32,7 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
+// See https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html
 data "aws_iam_policy_document" "ecr" {
   policy_id = "key-policy-ecr"
   statement {
@@ -47,27 +48,6 @@ data "aws_iam_policy_document" "ecr" {
           "arn:%s:iam::%s:root",
           data.aws_partition.current.partition,
           data.aws_caller_identity.current.account_id
-        )
-      ]
-    }
-    resources = ["*"]
-  }
-  statement {
-    sid = "AllowECR"
-    actions = [
-      "kms:Encrypt*",
-      "kms:Decrypt*",
-      "kms:ReEncrypt*",
-      "kms:GenerateDataKey*",
-      "kms:Describe*"
-    ]
-    effect = "Allow"
-    principals {
-      type = "Service"
-      identifiers = [
-        format(
-          "ecr.%s.amazonaws.com",
-          data.aws_region.current.name
         )
       ]
     }
