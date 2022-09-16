@@ -7,7 +7,7 @@ executors:
   main:
     working_directory: ~/project/
     docker:
-      - image: cimg/base:2021.03
+      - image: cimg/base:2022.09
 
 jobs:
   test:
